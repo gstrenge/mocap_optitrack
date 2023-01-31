@@ -98,7 +98,7 @@ public:
         ros::spinOnce();
       }
       // Once we have the server info, create publishers
-      publishDispatcherPtr.reset(
+      rigidBodyPublishDispatcherPtr.reset(
         new RigidBodyPublishDispatcher(nh,
                                        dataModel.getNatNetVersion(),
                                        publisherConfigurations));
@@ -123,7 +123,7 @@ public:
           // Maybe we got some data? If we did it would be in the form of one or more
           // rigid bodies in the data model
           ros::Time time = ros::Time::now();
-          publishDispatcherPtr->publish(time, dataModel.dataFrame.rigidBodies);
+          rigidBodyPublishDispatcherPtr->publish(time, dataModel.dataFrame.rigidBodies); 
 
           // Clear out the model to prepare for the next frame of data
           dataModel.clear();
@@ -164,7 +164,7 @@ private:
   PublisherConfigurations publisherConfigurations;
   DataModel dataModel;
   std::unique_ptr<UdpMulticastSocket> multicastClientSocketPtr;
-  std::unique_ptr<RigidBodyPublishDispatcher> publishDispatcherPtr;
+  std::unique_ptr<RigidBodyPublishDispatcher> rigidBodyPublishDispatcherPtr;
   dynamic_reconfigure::Server<MocapOptitrackConfig> server;
   bool initialized;
 };
